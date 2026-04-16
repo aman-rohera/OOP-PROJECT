@@ -1,0 +1,5 @@
+# Aura Retail OS — No external pip dependencies required.
+# Standard library + Tkinter (built-in with Python 3.8+)
+#
+# Run with:
+#   python main.py
