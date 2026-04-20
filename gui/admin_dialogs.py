@@ -475,7 +475,14 @@ class AdminPanel:
         tk.Label(card, text=product.get("description", ""), font=FONT_SMALL,
                  bg=CARD, fg=TEXT_MUTED, wraplength=160, justify=tk.CENTER).pack()
 
-        tk.Label(card, text=f"Rs.{product.get('base_price', 0):.2f}",
+        base_price = product.get('base_price', 0)
+        actual_price = self.ki.kiosk.pricing_strategy.calculate_price(base_price)
+        if actual_price != base_price:
+            price_text = f"Rs.{actual_price:.2f} (Base {base_price:.2f})"
+        else:
+            price_text = f"Rs.{base_price:.2f}"
+            
+        tk.Label(card, text=price_text,
                  font=FONT_PRICE, bg=CARD, fg=PRIMARY).pack(pady=(6, 0))
 
         stock_color = DANGER if available <= 5 else WARNING if available <= 10 else SUCCESS
@@ -525,7 +532,8 @@ class AdminPanel:
     def _on_price_changed(self, product_id, new_price):
         """Handle real-time price change notification."""
         self._refresh_product_cards()
-        self.append_log(f"💰 Price updated: {product_id} → Rs.{new_price:.2f}", "💰")
+        if product_id != "ALL":
+            self.append_log(f"💰 Price updated: {product_id} → Rs.{new_price:.2f}", "💰")
     
     def _on_inventory_changed(self, product_id, new_stock):
         """Handle real-time inventory change notification."""

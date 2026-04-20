@@ -6,7 +6,7 @@ Pattern: Observer (notifies UI of changes)
 Responsibility: Manage admin operations and broadcast changes
 """
 from typing import List, Dict, Optional, Callable
-from events.events import InventoryUpdateEvent, PricingChangedEvent
+from events.events import InventoryUpdateEvent, PricingChangedEvent, TransactionEvent, RestockEvent
 from events.event_system import EventBus
 
 
@@ -18,7 +18,7 @@ class AdminManager:
         Initialize admin manager.
         
         Args:
-            event_bus: EventBus for publishing changes
+            event_bus: EventBus for publishing/subscribing changes
             inventory_manager: Reference to inventory manager
         """
         self.event_bus = event_bus
@@ -28,6 +28,40 @@ class AdminManager:
         self.observers: List[Callable] = []
         self._prices_changed_subscribers = []
         self._inventory_changed_subscribers = []
+        
+        # Subscribe to global events so admin side updates when others change state
+        self.event_bus.subscribe(InventoryUpdateEvent, self._handle_inventory_event)
+        self.event_bus.subscribe(PricingChangedEvent, self._handle_pricing_event)
+        self.event_bus.subscribe(TransactionEvent, self._handle_transaction_event)
+        self.event_bus.subscribe(RestockEvent, self._handle_restock_event)
+
+    def _handle_transaction_event(self, event: TransactionEvent):
+        if event.success:
+            for prod in self.inventory_manager.get_all_products():
+                if prod["name"] == event.product_name:
+                    current_stock = prod.get("quantity", 0)
+                    self.notify_inventory_changes(prod["id"], current_stock)
+                    break
+
+    def _handle_restock_event(self, event: RestockEvent):
+        for prod in self.inventory_manager.get_all_products():
+            if prod["name"] == event.product_name or prod["id"] == event.product_name:
+                current_stock = prod.get("quantity", 0)
+                self.notify_inventory_changes(prod["id"], current_stock)
+                break
+
+    def _handle_inventory_event(self, event: InventoryUpdateEvent):
+        if event.product_id:
+            product = self.inventory_manager.get_product(event.product_id)
+            current_stock = product.get("quantity", 0) if product else 0
+            self.notify_inventory_changes(event.product_id, current_stock)
+
+    def _handle_pricing_event(self, event: PricingChangedEvent):
+        if event.product_id:
+            self.notify_price_changes(event.product_id, event.new_price)
+        else:
+            # Re-notify all if strategy changes
+            self.notify_price_changes("ALL", 0.0)
 
     def _persist_inventory(self):
         if not self.data_manager:

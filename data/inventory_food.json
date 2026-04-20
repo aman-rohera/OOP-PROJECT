@@ -4,7 +4,7 @@
             "id": "P002",
             "name": "Water Bottle",
             "base_price": 2.0,
-            "quantity": 100,
+            "quantity": 98,
             "category": "food",
             "essential": true,
             "icon": "\ud83d\udca7",
@@ -14,7 +14,7 @@
             "id": "P003",
             "name": "Energy Bar",
             "base_price": 3.5,
-            "quantity": 29,
+            "quantity": 27,
             "category": "food",
             "essential": false,
             "icon": "\ud83c\udf6b",
@@ -24,7 +24,7 @@
             "id": "P006",
             "name": "USB Charger",
             "base_price": 25.0,
-            "quantity": 15,
+            "quantity": 13,
             "category": "electronics",
             "essential": false,
             "icon": "\ud83d\udd0c",
@@ -36,7 +36,7 @@
             "description": "Bread",
             "icon": "aa",
             "base_price": 50.0,
-            "quantity": 50,
+            "quantity": 49,
             "essential": true
         }
     ]

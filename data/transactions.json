@@ -318,8 +318,85 @@
             "total_amount": 3.5,
             "message": "\u2705 Purchased Energy Bar x1 for $3.50",
             "state_note": "Purchase allowed in Active mode."
+        },
+        {
+            "success": true,
+            "transaction_id": "CD7F2135",
+            "product_id": "P006",
+            "product_name": "USB Charger",
+            "quantity": 1,
+            "unit_price": 25.0,
+            "total_amount": 25.0,
+            "message": "\u2705 Purchased USB Charger x1 for Rs.25.00",
+            "state_note": "Purchase allowed in Active mode."
+        },
+        {
+            "success": true,
+            "transaction_id": "C8338BB7",
+            "product_id": "6",
+            "product_name": "Bread",
+            "quantity": 1,
+            "unit_price": 50.0,
+            "total_amount": 50.0,
+            "message": "\u2705 Purchased Bread x1 for Rs.50.00",
+            "state_note": "Purchase allowed in Active mode."
+        },
+        {
+            "success": true,
+            "transaction_id": "BC13FB0C",
+            "product_id": "P003",
+            "product_name": "Energy Bar",
+            "quantity": 1,
+            "unit_price": 3.5,
+            "total_amount": 3.5,
+            "message": "\u2705 Purchased Energy Bar x1 for Rs.3.50",
+            "state_note": "Purchase allowed in Active mode."
+        },
+        {
+            "success": true,
+            "transaction_id": "FF1E643D",
+            "product_id": "P002",
+            "product_name": "Water Bottle",
+            "quantity": 1,
+            "unit_price": 2.0,
+            "total_amount": 2.0,
+            "message": "\u2705 Purchased Water Bottle x1 for Rs.2.00",
+            "state_note": "Purchase allowed in Active mode."
+        },
+        {
+            "success": true,
+            "transaction_id": "B45B26A7",
+            "product_id": "P002",
+            "product_name": "Water Bottle",
+            "quantity": 1,
+            "unit_price": 2.0,
+            "total_amount": 2.0,
+            "message": "\u2705 Purchased Water Bottle x1 for Rs.2.00",
+            "state_note": "Purchase allowed in Active mode."
+        },
+        {
+            "success": true,
+            "transaction_id": "2D893A3B",
+            "product_id": "P003",
+            "product_name": "Energy Bar",
+            "quantity": 1,
+            "unit_price": 3.5,
+            "total_amount": 3.5,
+            "message": "\u2705 Purchased Energy Bar x1 for Rs.3.50",
+            "state_note": "Purchase allowed in Active mode."
+        },
+        {
+            "success": true,
+            "transaction_id": "375D699A",
+            "product_id": "P006",
+            "product_name": "USB Charger",
+            "quantity": 1,
+            "unit_price": 25.0,
+            "total_amount": 25.0,
+            "message": "\u2705 Purchased USB Charger x1 for Rs.25.00",
+            "state_note": "Purchase allowed in Active mode."
         }
     ],
-    "total_revenue": 179.5,
-    "total_items_sold": 29
+    "total_revenue": 290.5,
+    "total_items_sold": 36
 }
