@@ -477,10 +477,8 @@ class AdminPanel:
 
         base_price = product.get('base_price', 0)
         actual_price = self.ki.kiosk.pricing_strategy.calculate_price(base_price)
-        if actual_price != base_price:
-            price_text = f"Rs.{actual_price:.2f} (Base {base_price:.2f})"
-        else:
-            price_text = f"Rs.{base_price:.2f}"
+        price_text = f"Rs.{actual_price:.2f}"
+
             
         tk.Label(card, text=price_text,
                  font=FONT_PRICE, bg=CARD, fg=PRIMARY).pack(pady=(6, 0))
