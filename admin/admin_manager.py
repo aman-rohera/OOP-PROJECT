@@ -52,9 +52,13 @@ class AdminManager:
 
     def _handle_inventory_event(self, event: InventoryUpdateEvent):
         if event.product_id:
-            product = self.inventory_manager.get_product(event.product_id)
-            current_stock = product.get("quantity", 0) if product else 0
-            self.notify_inventory_changes(event.product_id, current_stock)
+            if event.product_id == "ALL":
+                for prod in self.inventory_manager.get_all_products():
+                    self.notify_inventory_changes(prod["id"], prod.get("quantity", 0))
+            else:
+                product = self.inventory_manager.get_product(event.product_id)
+                current_stock = product.get("quantity", 0) if product else 0
+                self.notify_inventory_changes(event.product_id, current_stock)
 
     def _handle_pricing_event(self, event: PricingChangedEvent):
         if event.product_id:

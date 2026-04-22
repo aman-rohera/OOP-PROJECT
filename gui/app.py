@@ -153,6 +153,13 @@ class AuraRetailOSApp:
         tk.Label(frame, text="Fast, simple, and ready for sales.",
                  font=FONT_SMALL, bg=SURFACE, fg=TEXT_MUTED).pack(anchor=tk.W, pady=(PAD, 0))
 
+        # Refund Button
+        refund_btn = tk.Button(frame, text="🔙 Refund Last Purchase", font=FONT_BTN, bg=WARNING, fg=BG,
+                               relief=tk.FLAT, cursor="hand2", padx=8, pady=6,
+                               command=self._sim_undo)
+        refund_btn.pack(fill=tk.X, pady=(PAD * 2, 0))
+        self._bind_hover(refund_btn, WARNING, "#E67E22")
+
     def _build_user_log(self, parent):
         frame = tk.Frame(parent, bg=SURFACE, padx=PAD, pady=PAD)
         frame.grid(row=0, column=2, sticky="nsew")
@@ -267,86 +274,6 @@ class AuraRetailOSApp:
         btn.pack(fill=tk.X, pady=(PAD_SM, 0))
         self._bind_hover(btn, PRIMARY, PRIMARY_DK)
 
-    # ── Control Panel ──────────────────────────────────────────────────────
-
-    def _build_control_panel(self, parent):
-        frame = tk.Frame(parent, bg=SURFACE, padx=PAD, pady=PAD)
-        frame.grid(row=0, column=1, sticky="nsew", padx=(0, PAD_SM))
-
-        tk.Label(frame, text="⚙  Control Panel", font=FONT_HEADING,
-                 bg=SURFACE, fg=TEXT).pack(anchor=tk.W, pady=(0, PAD))
-
-        # ── Kiosk Mode ────────────────────────────────────────
-        self._section(frame, "Kiosk Mode")
-        self.mode_var = tk.StringVar(value="Active")
-        modes = [
-            ("🟢  Active",             "Active",             ActiveState()),
-            ("🟡  Power Saving",        "Power Saving",       PowerSavingState()),
-            ("🟣  Maintenance",         "Maintenance",        MaintenanceState()),
-            ("🔴  Emergency Lockdown",  "Emergency Lockdown", EmergencyLockdownState()),
-        ]
-        for label, name, state_obj in modes:
-            rb = tk.Radiobutton(frame, text=label, variable=self.mode_var, value=name,
-                                font=FONT_BODY, bg=SURFACE, fg=TEXT,
-                                selectcolor=CARD, activebackground=SURFACE,
-                                activeforeground=TEXT,
-                                command=lambda n=name, s=state_obj: self._change_mode(n, s))
-            rb.pack(anchor=tk.W, padx=PAD_SM)
-
-        ttk.Separator(frame, orient="horizontal").pack(fill=tk.X, pady=PAD)
-
-        # ── Pricing Strategy ──────────────────────────────────
-        self._section(frame, "Pricing Strategy")
-        self.pricing_var = tk.StringVar(value="Standard")
-        pricings = [
-            ("💲  Standard  (×1.0)",   "Standard",   StandardPricing()),
-            ("🏷  Discounted  (−20%)", "Discounted", DiscountedPricing()),
-            ("🚨  Emergency  (+50%)",  "Emergency",  EmergencyPricing()),
-        ]
-        for label, name, strat in pricings:
-            rb = tk.Radiobutton(frame, text=label, variable=self.pricing_var, value=name,
-                                font=FONT_BODY, bg=SURFACE, fg=TEXT,
-                                selectcolor=CARD, activebackground=SURFACE,
-                                activeforeground=TEXT,
-                                command=lambda n=name, s=strat: self._change_pricing(n, s))
-            rb.pack(anchor=tk.W, padx=PAD_SM)
-
-        ttk.Separator(frame, orient="horizontal").pack(fill=tk.X, pady=PAD)
-
-        # ── Simulation Controls ───────────────────────────────
-        self._section(frame, "Simulation")
-
-        sims = [
-            ("🔧  Trigger Hardware Failure",  DANGER,   self._sim_failure),
-            ("🚨  Activate Emergency Mode",   DANGER,   self._sim_emergency),
-            ("📦  Restock All Products",      SUCCESS,  self._sim_restock),
-            ("🔙  Undo Last Transaction",     WARNING,  self._sim_undo),
-            ("🩺  Run Diagnostics",           PRIMARY,  self._sim_diagnostics),
-        ]
-        for text, color, cmd in sims:
-            btn = tk.Button(frame, text=text, font=FONT_BTN, bg=color, fg=BG,
-                            relief=tk.FLAT, cursor="hand2", pady=5,
-                            command=cmd)
-            btn.pack(fill=tk.X, pady=2)
-
-        ttk.Separator(frame, orient="horizontal").pack(fill=tk.X, pady=PAD)
-
-        # ── Stats ─────────────────────────────────────────────
-        self._section(frame, "Live Statistics")
-        stats_frame = tk.Frame(frame, bg=CARD, padx=PAD, pady=PAD_SM)
-        stats_frame.pack(fill=tk.X)
-
-        self.revenue_lbl = tk.Label(stats_frame, text="Revenue:  Rs.0.00",
-                                    font=FONT_BODY, bg=CARD, fg=SUCCESS, anchor=tk.W)
-        self.revenue_lbl.pack(fill=tk.X)
-        self.sold_lbl = tk.Label(stats_frame, text="Items Sold:  0",
-                                 font=FONT_BODY, bg=CARD, fg=TEXT, anchor=tk.W)
-        self.sold_lbl.pack(fill=tk.X)
-        self.txn_count_lbl = tk.Label(stats_frame, text="Transactions:  0",
-                                      font=FONT_BODY, bg=CARD, fg=TEXT, anchor=tk.W)
-        self.txn_count_lbl.pack(fill=tk.X)
-        self._txn_count = 0
-
     # ── Event Log ──────────────────────────────────────────────────────────
 
     def _build_event_log(self, parent):
@@ -387,21 +314,18 @@ class AuraRetailOSApp:
         bar.pack(fill=tk.X, side=tk.BOTTOM)
         bar.pack_propagate(False)
 
-        self.status_mode_lbl  = tk.Label(bar, text="Mode: Active", font=FONT_STATUS,
+        current_mode = self.ki.kiosk.state.get_mode_name()
+        current_pricing = self.ki.kiosk.pricing_strategy.get_strategy_name()
+
+        self.status_mode_lbl  = tk.Label(bar, text=f"Mode: {current_mode}", font=FONT_STATUS,
                                           bg=SURFACE, fg=SUCCESS)
         self.status_mode_lbl.pack(side=tk.LEFT, padx=PAD)
 
         tk.Label(bar, text="|", bg=SURFACE, fg=BORDER).pack(side=tk.LEFT)
 
-        self.status_price_lbl = tk.Label(bar, text="Pricing: Standard", font=FONT_STATUS,
+        self.status_price_lbl = tk.Label(bar, text=f"Pricing: {current_pricing}", font=FONT_STATUS,
                                           bg=SURFACE, fg=TEXT_MUTED)
         self.status_price_lbl.pack(side=tk.LEFT, padx=PAD)
-
-        tk.Label(bar, text="|", bg=SURFACE, fg=BORDER).pack(side=tk.LEFT)
-
-        self.status_rev_lbl   = tk.Label(bar, text="Revenue: Rs.0.00", font=FONT_STATUS,
-                                          bg=SURFACE, fg=TEXT_MUTED)
-        self.status_rev_lbl.pack(side=tk.LEFT, padx=PAD)
 
         tk.Label(bar, text="City: Zephyrus · Aura Retail OS © 2025",
                  font=FONT_STATUS, bg=SURFACE, fg=BORDER).pack(side=tk.RIGHT, padx=PAD)
@@ -446,7 +370,8 @@ class AuraRetailOSApp:
     def _on_pricing_changed(self, ev):
         self._log(str(ev))
         self._populate_products()
-        self._refresh_pricing_ui(ev.new_strategy)
+        if ev.new_strategy:
+            self._refresh_pricing_ui(ev.new_strategy)
 
     def _on_restock(self, ev):
         self._log(str(ev))
@@ -480,12 +405,9 @@ class AuraRetailOSApp:
         self.ki.trigger_hardware_failure(comp, sev, log_cb=self._log)
 
     def _sim_emergency(self):
-        from state.emergency_state import EmergencyLockdownState
-        from pricing.emergency_pricing import EmergencyPricing
-        self.mode_var.set("Emergency Lockdown")
-        self.pricing_var.set("Emergency")
-        self.ki.set_mode(EmergencyLockdownState(), "Emergency Lockdown")
-        self.ki.set_pricing(EmergencyPricing(), "Emergency")
+        # Emergency simulation goes through Admin Panel normally. 
+        # Left here just in case.
+        pass
 
     def _sim_restock(self):
         self._log("\n── Restocking All Products ──────────────────────", "muted")
@@ -529,15 +451,8 @@ class AuraRetailOSApp:
         self.log_text.configure(state=tk.DISABLED)
 
     def _update_stats(self):
-        rev = self.registry.total_revenue
-        sold = self.registry.total_items_sold
-        history = self.ki.kiosk.invoker.get_history()
-        self._txn_count = len(history)
-
-        self.revenue_lbl.config(text=f"Revenue:  Rs.{rev:.2f}")
-        self.sold_lbl.config(text=f"Items Sold:  {sold}")
-        self.txn_count_lbl.config(text=f"Transactions:  {self._txn_count}")
-        self.status_rev_lbl.config(text=f"Revenue: Rs.{rev:.2f}")
+        # Stats are now handled in Admin Panel
+        pass
 
     def _refresh_mode_ui(self, name: str):
         color = MODE_COLORS.get(name, TEXT)

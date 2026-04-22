@@ -12,7 +12,8 @@ from transactions.restock_command import RestockCommand
 from events.events import (
     TransactionEvent, RestockEvent, LowStockEvent,
     HardwareFailureEvent, EmergencyModeActivatedEvent,
-    ModeChangedEvent, PricingChangedEvent
+    ModeChangedEvent, PricingChangedEvent,
+    InventoryUpdateEvent
 )
 
 
@@ -77,6 +78,23 @@ class KioskInterface:
         result = self.kiosk.undo_last()
         if result.get("success"):
             self._persist_inventory()
+            
+            # Update stats backwards
+            refund_amt = result.get("refund_amount", 0.0)
+            qty = result.get("quantity", 0)
+            pid = result.get("product_id", "")
+            
+            if refund_amt or qty:
+                self.registry.update_stats(-refund_amt, -qty)
+            
+            # Always publish an event so UI can refresh
+            self.kiosk.event_bus.publish(InventoryUpdateEvent(
+                product_id=pid if pid else "ALL",
+                change_type="ADD", 
+                quantity=qty,
+                reason="Undo action performed"
+            ))
+                
         return result
 
     # ── Inventory ─────────────────────────────────────────────────────────

@@ -84,7 +84,9 @@ class PurchaseItemCommand(Command):
         return {
             "success": True,
             "message": f"🔙 Rolled back: {self._result['product_name']} x{self._result['quantity']} — Rs.{self._result['total_amount']:.2f} refunded",
-            "refund_amount": self._result["total_amount"]
+            "refund_amount": self._result["total_amount"],
+            "product_id": self._result["product_id"],
+            "quantity": self._result["quantity"]
         }
 
     def get_description(self) -> str:

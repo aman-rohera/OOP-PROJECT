@@ -304,6 +304,13 @@ class AdminPanel:
         # Subscribe to real-time updates
         admin_manager.subscribe_to_price_changes(self._on_price_changed)
         admin_manager.subscribe_to_inventory_changes(self._on_inventory_changed)
+        
+        from events.events import TransactionEvent, ModeChangedEvent, PricingChangedEvent, InventoryUpdateEvent
+        bus = self.ki.kiosk.event_bus
+        bus.subscribe(TransactionEvent, lambda e: self._update_stats())
+        bus.subscribe(InventoryUpdateEvent, lambda e: self._update_stats())
+        bus.subscribe(ModeChangedEvent, lambda e: self.mode_var.set(e.new_mode))
+        bus.subscribe(PricingChangedEvent, lambda e: self.pricing_var.set(e.new_strategy) if e.new_strategy else None)
     
     def _build_ui(self):
         """Build admin panel UI."""
@@ -316,9 +323,9 @@ class AdminPanel:
 
         container = tk.Frame(self.panel, bg=BG)
         container.pack(fill=tk.BOTH, expand=True, padx=PAD, pady=(0, PAD))
-        container.columnconfigure(0, weight=2)
+        container.columnconfigure(0, weight=4)
         container.columnconfigure(1, weight=1)
-        container.columnconfigure(2, weight=2)
+        container.columnconfigure(2, weight=4)
         container.rowconfigure(0, weight=1)
 
         self._build_inventory_panel(container)
@@ -343,13 +350,40 @@ class AdminPanel:
         self._build_edit_products_panel(frame)
 
     def _build_controls_panel(self, parent):
-        frame = tk.Frame(parent, bg=SURFACE, padx=PAD, pady=PAD)
-        frame.grid(row=0, column=1, sticky="nsew", padx=(PAD_SM, PAD_SM))
+        outer_frame = tk.Frame(parent, bg=SURFACE, padx=PAD, pady=PAD)
+        outer_frame.grid(row=0, column=1, sticky="nsew", padx=(PAD_SM, PAD_SM))
 
-        tk.Label(frame, text="⚙ Controls", font=FONT_HEADING, bg=SURFACE, fg=TEXT).pack(anchor=tk.W, pady=(0, PAD))
+        tk.Label(outer_frame, text="⚙ Controls", font=FONT_HEADING, bg=SURFACE, fg=TEXT).pack(anchor=tk.W, pady=(0, PAD))
+
+        canvas = tk.Canvas(outer_frame, bg=SURFACE, highlightthickness=0, width=200)
+        scrollbar = ttk.Scrollbar(outer_frame, orient="vertical", command=canvas.yview)
+        frame = tk.Frame(canvas, bg=SURFACE)
+
+        frame.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+        canvas_window = canvas.create_window((0, 0), window=frame, anchor="nw")
+        
+        def _on_canvas_resize(e):
+            if e.width > 0:
+                canvas.itemconfig(canvas_window, width=e.width)
+        canvas.bind("<Configure>", _on_canvas_resize)
+        
+        canvas.configure(yscrollcommand=scrollbar.set)
+        
+        def _on_mousewheel(e):
+            canvas.yview_scroll(-1 * (e.delta // 120), "units")
+        
+        # Bind MouseWheel specifically when hovering the canvas/frame
+        canvas.bind("<Enter>", lambda e: canvas.bind_all("<MouseWheel>", _on_mousewheel))
+        canvas.bind("<Leave>", lambda e: canvas.unbind_all("<MouseWheel>"))
+
+        canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+
+        # Moved back to bottom
 
         self._section(frame, "Kiosk Mode")
-        self.mode_var = tk.StringVar(value="Active")
+        current_mode = self.ki.kiosk.state.get_mode_name()
+        self.mode_var = tk.StringVar(value=current_mode)
         modes = [
             ("🟢 Active", "Active", ActiveState()),
             ("🟡 Power Saving", "Power Saving", PowerSavingState()),
@@ -366,7 +400,8 @@ class AdminPanel:
         ttk.Separator(frame, orient="horizontal").pack(fill=tk.X, pady=PAD)
 
         self._section(frame, "Pricing Strategy")
-        self.pricing_var = tk.StringVar(value="Standard")
+        current_pricing = self.ki.kiosk.pricing_strategy.get_strategy_name()
+        self.pricing_var = tk.StringVar(value=current_pricing)
         pricings = [
             ("💲 Standard", "Standard", StandardPricing()),
             ("🏷 Discounted", "Discounted", DiscountedPricing()),
@@ -386,7 +421,6 @@ class AdminPanel:
             ("🔧 Trigger Hardware Failure", DANGER, self._sim_failure),
             ("🚨 Activate Emergency Mode", DANGER, self._sim_emergency),
             ("📦 Restock All Products", SUCCESS, self._sim_restock),
-            ("🔙 Undo Last Transaction", WARNING, self._sim_undo),
             ("🩺 Run Diagnostics", PRIMARY, self._sim_diagnostics),
         ]:
             btn = tk.Button(frame, text=text, font=FONT_BTN, bg=color, fg=BG,
@@ -397,6 +431,25 @@ class AdminPanel:
                                        font=FONT_SMALL, bg=SURFACE, fg=TEXT_MUTED,
                                        wraplength=320, justify=tk.LEFT)
         self.control_status.pack(anchor=tk.W, pady=(PAD, 0))
+
+        ttk.Separator(frame, orient="horizontal").pack(fill=tk.X, pady=PAD)
+
+        # ── Stats ─────────────────────────────────────────────
+        self._section(frame, "Daily Statistics")
+        stats_frame = tk.Frame(frame, bg=CARD, padx=PAD, pady=PAD_SM)
+        stats_frame.pack(fill=tk.X, pady=(0, PAD))
+
+        self.revenue_lbl = tk.Label(stats_frame, text="Revenue:  Rs.0.00",
+                                    font=FONT_BODY, bg=CARD, fg=SUCCESS, anchor=tk.W)
+        self.revenue_lbl.pack(fill=tk.X)
+        self.sold_lbl = tk.Label(stats_frame, text="Items Sold:  0",
+                                 font=FONT_BODY, bg=CARD, fg=TEXT, anchor=tk.W)
+        self.sold_lbl.pack(fill=tk.X)
+        self.txn_count_lbl = tk.Label(stats_frame, text="Transactions:  0",
+                                      font=FONT_BODY, bg=CARD, fg=TEXT, anchor=tk.W)
+        self.txn_count_lbl.pack(fill=tk.X)
+        
+        self._update_stats()
 
     def _build_logs_panel(self, parent):
         frame = tk.Frame(parent, bg=SURFACE, padx=PAD, pady=PAD)
@@ -542,6 +595,19 @@ class AdminPanel:
         tk.Label(parent, text=title.upper(), font=("Segoe UI", 9, "bold"),
                  bg=SURFACE, fg=TEXT_MUTED).pack(anchor=tk.W, pady=(0, 2))
 
+    def _update_stats(self):
+        try:
+            rev = self.ki.registry.total_revenue
+            sold = self.ki.registry.total_items_sold
+            history = self.ki.kiosk.invoker.get_history()
+            txn_count = len(history)
+
+            self.revenue_lbl.config(text=f"Revenue:  Rs.{rev:.2f}")
+            self.sold_lbl.config(text=f"Items Sold:  {sold}")
+            self.txn_count_lbl.config(text=f"Transactions:  {txn_count}")
+        except AttributeError:
+            pass
+
     def _bind_hover(self, btn, normal_color, hover_color):
         """Add hover effect to button."""
         btn.bind("<Enter>", lambda e: btn.config(bg=hover_color))
@@ -590,13 +656,6 @@ class AdminPanel:
     def _sim_restock(self):
         self.append_log("📦 Restocking all products", "📦")
         self.ki.restock_all(50)
-
-    def _sim_undo(self):
-        result = self.ki.refund_transaction()
-        if result.get("success"):
-            self.append_log(result["message"], "🔙")
-        else:
-            messagebox.showinfo("Undo", result.get("message", "Nothing to undo."))
 
     def _sim_diagnostics(self):
         diag = self.ki.run_diagnostics()

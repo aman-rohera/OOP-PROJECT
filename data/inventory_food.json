@@ -13,8 +13,8 @@
         {
             "id": "P003",
             "name": "Energy Bar",
-            "base_price": 3.5,
-            "quantity": 27,
+            "base_price": 5.0,
+            "quantity": 23,
             "category": "food",
             "essential": false,
             "icon": "\ud83c\udf6b",

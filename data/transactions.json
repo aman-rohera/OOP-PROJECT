@@ -395,8 +395,184 @@
             "total_amount": 25.0,
             "message": "\u2705 Purchased USB Charger x1 for Rs.25.00",
             "state_note": "Purchase allowed in Active mode."
+        },
+        {
+            "success": true,
+            "transaction_id": "7476CDA0",
+            "product_id": "P003",
+            "product_name": "Energy Bar",
+            "quantity": 1,
+            "unit_price": 3.5,
+            "total_amount": 3.5,
+            "message": "\u2705 Purchased Energy Bar x1 for Rs.3.50",
+            "state_note": "Purchase allowed in Active mode."
+        },
+        {
+            "success": true,
+            "transaction_id": "4AF94AE0",
+            "product_id": "P003",
+            "product_name": "Energy Bar",
+            "quantity": 1,
+            "unit_price": 3.5,
+            "total_amount": 3.5,
+            "message": "\u2705 Purchased Energy Bar x1 for Rs.3.50",
+            "state_note": "Purchase allowed in Active mode."
+        },
+        {
+            "success": true,
+            "transaction_id": "9F18FF96",
+            "product_id": "P003",
+            "product_name": "Energy Bar",
+            "quantity": 1,
+            "unit_price": 3.5,
+            "total_amount": 3.5,
+            "message": "\u2705 Purchased Energy Bar x1 for Rs.3.50",
+            "state_note": "Purchase allowed in Active mode."
+        },
+        {
+            "success": true,
+            "transaction_id": "8E3D3C7C",
+            "product_id": "P003",
+            "product_name": "Energy Bar",
+            "quantity": 1,
+            "unit_price": 3.5,
+            "total_amount": 3.5,
+            "message": "\u2705 Purchased Energy Bar x1 for Rs.3.50",
+            "state_note": "Purchase allowed in Active mode."
+        },
+        {
+            "success": true,
+            "transaction_id": "B7192753",
+            "product_id": "P003",
+            "product_name": "Energy Bar",
+            "quantity": 1,
+            "unit_price": 5.0,
+            "total_amount": 5.0,
+            "message": "\u2705 Purchased Energy Bar x1 for Rs.5.00",
+            "state_note": "Purchase allowed in Active mode."
+        },
+        {
+            "success": true,
+            "transaction_id": "9C0BA496",
+            "product_id": "P003",
+            "product_name": "Energy Bar",
+            "quantity": 1,
+            "unit_price": 5.0,
+            "total_amount": 5.0,
+            "message": "\u2705 Purchased Energy Bar x1 for Rs.5.00",
+            "state_note": "Purchase allowed in Active mode."
+        },
+        {
+            "success": true,
+            "transaction_id": "EA70F617",
+            "product_id": "P003",
+            "product_name": "Energy Bar",
+            "quantity": 1,
+            "unit_price": 5.0,
+            "total_amount": 5.0,
+            "message": "\u2705 Purchased Energy Bar x1 for Rs.5.00",
+            "state_note": "Purchase allowed in Active mode."
+        },
+        {
+            "success": true,
+            "transaction_id": "578C8F77",
+            "product_id": "P003",
+            "product_name": "Energy Bar",
+            "quantity": 1,
+            "unit_price": 5.0,
+            "total_amount": 5.0,
+            "message": "\u2705 Purchased Energy Bar x1 for Rs.5.00",
+            "state_note": "Purchase allowed in Active mode."
+        },
+        {
+            "success": true,
+            "transaction_id": "2490181B",
+            "product_id": "P003",
+            "product_name": "Energy Bar",
+            "quantity": 1,
+            "unit_price": 5.0,
+            "total_amount": 5.0,
+            "message": "\u2705 Purchased Energy Bar x1 for Rs.5.00",
+            "state_note": "Purchase allowed in Active mode."
+        },
+        {
+            "success": true,
+            "transaction_id": "C52244E4",
+            "product_id": "P003",
+            "product_name": "Energy Bar",
+            "quantity": 1,
+            "unit_price": 5.0,
+            "total_amount": 5.0,
+            "message": "\u2705 Purchased Energy Bar x1 for Rs.5.00",
+            "state_note": "Purchase allowed in Active mode."
+        },
+        {
+            "success": true,
+            "transaction_id": "037E1FB1",
+            "product_id": "P003",
+            "product_name": "Energy Bar",
+            "quantity": 1,
+            "unit_price": 5.0,
+            "total_amount": 5.0,
+            "message": "\u2705 Purchased Energy Bar x1 for Rs.5.00",
+            "state_note": "Purchase allowed in Active mode."
+        },
+        {
+            "success": true,
+            "transaction_id": "C3D59729",
+            "product_id": "P003",
+            "product_name": "Energy Bar",
+            "quantity": 1,
+            "unit_price": 5.0,
+            "total_amount": 5.0,
+            "message": "\u2705 Purchased Energy Bar x1 for Rs.5.00",
+            "state_note": "Purchase allowed in Active mode."
+        },
+        {
+            "success": true,
+            "transaction_id": "447580F3",
+            "product_id": "P003",
+            "product_name": "Energy Bar",
+            "quantity": 1,
+            "unit_price": 5.0,
+            "total_amount": 5.0,
+            "message": "\u2705 Purchased Energy Bar x1 for Rs.5.00",
+            "state_note": "Purchase allowed in Active mode."
+        },
+        {
+            "success": true,
+            "transaction_id": "76FD034F",
+            "product_id": "P003",
+            "product_name": "Energy Bar",
+            "quantity": 1,
+            "unit_price": 5.0,
+            "total_amount": 5.0,
+            "message": "\u2705 Purchased Energy Bar x1 for Rs.5.00",
+            "state_note": "Purchase allowed in Active mode."
+        },
+        {
+            "success": true,
+            "transaction_id": "79ACB69C",
+            "product_id": "P003",
+            "product_name": "Energy Bar",
+            "quantity": 1,
+            "unit_price": 5.0,
+            "total_amount": 5.0,
+            "message": "\u2705 Purchased Energy Bar x1 for Rs.5.00",
+            "state_note": "Purchase allowed in Active mode."
+        },
+        {
+            "success": true,
+            "transaction_id": "B819158C",
+            "product_id": "P003",
+            "product_name": "Energy Bar",
+            "quantity": 1,
+            "unit_price": 5.0,
+            "total_amount": 5.0,
+            "message": "\u2705 Purchased Energy Bar x1 for Rs.5.00",
+            "state_note": "Purchase allowed in Active mode."
         }
     ],
-    "total_revenue": 290.5,
-    "total_items_sold": 36
+    "total_revenue": 364.5,
+    "total_items_sold": 52
 }
