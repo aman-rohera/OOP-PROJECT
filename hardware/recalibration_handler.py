@@ -1,6 +1,8 @@
 """
-hardware/recalibration_handler.py — Second handler: hardware recalibration.
-Pattern: Chain of Responsibility (Concrete Handler) | Member: Team Member 3
+hardware/recalibration_handler.py
+Second handler: hardware recalibration.
+
+Pattern: Chain of Responsibility (Concrete Handler)
 """
 import random
 from hardware.failure_handler import FailureHandler

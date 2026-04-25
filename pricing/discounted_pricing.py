@@ -3,7 +3,6 @@ pricing/discounted_pricing.py
 Discounted pricing — applies a percentage discount to base price.
 
 Pattern: Strategy (Concrete Strategy)
-Member responsibility: Aman
 """
 from pricing.pricing_strategy import PricingStrategy
 

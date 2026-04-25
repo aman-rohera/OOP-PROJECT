@@ -1,6 +1,8 @@
 """
-hardware/technician_handler.py — Final handler: send alert to technician.
-Pattern: Chain of Responsibility (Concrete Handler) | Member: Team Member 3
+hardware/technician_handler.py
+Final handler: send alert to technician.
+
+Pattern: Chain of Responsibility (Concrete Handler)
 """
 from datetime import datetime
 from hardware.failure_handler import FailureHandler

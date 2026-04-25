@@ -3,7 +3,6 @@ pricing/emergency_pricing.py
 Emergency pricing — surge pricing during emergency mode.
 
 Pattern: Strategy (Concrete Strategy)
-Member responsibility: Aman
 """
 from pricing.pricing_strategy import PricingStrategy
 

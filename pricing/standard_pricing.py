@@ -3,7 +3,6 @@ pricing/standard_pricing.py
 Standard pricing — charges the base price (1x multiplier).
 
 Pattern: Strategy (Concrete Strategy)
-Member responsibility: Aman
 """
 from pricing.pricing_strategy import PricingStrategy
 

@@ -2,7 +2,6 @@
 core/kiosk.py
 The central Kiosk class — context for State and Strategy patterns.
 
-Member responsibility: Divyesh
 """
 from inventory.inventory_manager import InventoryManager
 from events.event_system import EventBus

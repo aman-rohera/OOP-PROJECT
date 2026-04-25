@@ -1,6 +1,8 @@
 """
-state/power_saving_state.py — Reduced-power operation mode.
-Pattern: State (Concrete State) | Member: Team Member 2
+state/power_saving_state.py
+Reduced-power operation mode.
+
+Pattern: State (Concrete State)
 """
 from state.kiosk_state import KioskState
 

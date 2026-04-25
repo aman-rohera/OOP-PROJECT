@@ -1,6 +1,8 @@
 """
-state/maintenance_state.py — Kiosk under maintenance, no purchases.
-Pattern: State (Concrete State) | Member: Team Member 2
+state/maintenance_state.py
+Kiosk under maintenance, no purchases.
+
+Pattern: State (Concrete State)
 """
 from state.kiosk_state import KioskState
 

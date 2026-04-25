@@ -6,7 +6,6 @@ Demonstrates: Encapsulation, Derived Attributes (project constraint)
   - Available stock is DERIVED: total − reserved − hardware_unavailable
   - Actual stock is never reduced until a transaction commits
 
-Member responsibility: Aman
 """
 from typing import Dict, List, Optional
 

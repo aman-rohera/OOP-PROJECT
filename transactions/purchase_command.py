@@ -3,7 +3,6 @@ transactions/purchase_command.py
 Concrete Command for purchasing a product.
 
 Pattern: Command (Concrete) + Memento (rollback)
-Member responsibility: Diya
 """
 import uuid
 from datetime import datetime

@@ -17,7 +17,6 @@ class MaintenanceService:
     """
     Observer: responds to hardware failure events.
     Pattern: Observer (Concrete Observer)
-    Member responsibility: Vivek
     """
 
     def __init__(self, event_bus, gui_callback=None):
@@ -42,7 +41,6 @@ class SupplyChainSystem:
     """
     Observer: responds to low stock events and triggers reorder.
     Pattern: Observer (Concrete Observer)
-    Member responsibility: Vivek
     """
 
     def __init__(self, event_bus, gui_callback=None):
@@ -67,7 +65,6 @@ class CityMonitoringCenter:
     """
     Observer: city-wide monitoring — tracks emergencies and critical events.
     Pattern: Observer (Concrete Observer)
-    Member responsibility: Vivek
     """
 
     def __init__(self, event_bus, gui_callback=None):

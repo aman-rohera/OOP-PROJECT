@@ -3,7 +3,6 @@ hardware/failure_handler.py
 Abstract base for the hardware failure handling chain.
 
 Pattern: Chain of Responsibility (Abstract Handler)
-Member responsibility: Vivek
 """
 from __future__ import annotations
 from abc import ABC, abstractmethod

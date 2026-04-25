@@ -7,7 +7,6 @@ Pattern: Strategy (Abstract Strategy)
   - Kiosk holds a reference to a PricingStrategy and delegates
     price calculation to it — allowing runtime strategy swaps.
 
-Member responsibility: Aman
 """
 from abc import ABC, abstractmethod
 

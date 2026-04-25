@@ -8,7 +8,6 @@ Pattern: State (Abstract State)
     delegates all operations to it, enabling behavior changes
     simply by swapping the state object at runtime.
 
-Member responsibility: Divyesh
 """
 from __future__ import annotations
 from abc import ABC, abstractmethod

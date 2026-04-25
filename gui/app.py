@@ -13,7 +13,6 @@ Layout:
   │  STATUS BAR: mode | pricing | revenue | items sold       │
   └─────────────────────────────────────────────────────────┘
 
-Member responsibility: Diya
 """
 import tkinter as tk
 from tkinter import ttk, messagebox

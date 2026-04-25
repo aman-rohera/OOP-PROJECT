@@ -3,7 +3,6 @@ transactions/restock_command.py
 Concrete Command for restocking a product.
 
 Pattern: Command (Concrete)
-Member responsibility: Diya
 """
 from transactions.command import Command
 

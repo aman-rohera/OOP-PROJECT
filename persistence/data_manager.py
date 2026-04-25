@@ -2,7 +2,6 @@
 persistence/data_manager.py
 Handles JSON-based persistence for inventory, transactions, and config.
 
-Member responsibility: Diya
 """
 import json
 import os

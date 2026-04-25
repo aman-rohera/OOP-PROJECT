@@ -3,7 +3,6 @@ core/kiosk_factory.py
 Abstract Factory for creating different kiosk types.
 
 Pattern: Abstract Factory
-Member responsibility: Divyesh
 """
 from abc import ABC, abstractmethod
 from core.kiosk import Kiosk

@@ -3,7 +3,6 @@ transactions/command.py
 Abstract Command + CommandInvoker (history/undo support).
 
 Pattern: Command (Abstract + Invoker)
-Member responsibility: Diya
 """
 from abc import ABC, abstractmethod
 

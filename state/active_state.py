@@ -1,6 +1,8 @@
 """
-state/active_state.py — Normal full-operation mode.
-Pattern: State (Concrete State) | Member: Team Member 2
+state/active_state.py
+Normal full-operation mode.
+
+Pattern: State (Concrete State)
 """
 from state.kiosk_state import KioskState
 

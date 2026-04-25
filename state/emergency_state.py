@@ -1,6 +1,8 @@
 """
-state/emergency_state.py — Emergency lockdown: essential items only, quantity limited.
-Pattern: State (Concrete State) | Member: Team Member 2
+state/emergency_state.py
+Emergency lockdown — essential items only, quantity limited.
+
+Pattern: State (Concrete State)
 """
 from state.kiosk_state import KioskState
 

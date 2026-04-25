@@ -3,7 +3,6 @@ core/central_registry.py
 Global singleton registry — stores system-wide state and configuration.
 
 Pattern: Singleton
-Member responsibility: Divyesh
 """
 
 

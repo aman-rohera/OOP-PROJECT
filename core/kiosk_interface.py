@@ -3,7 +3,6 @@ core/kiosk_interface.py
 Facade — exposes a simplified API for external systems (the GUI).
 
 Pattern: Facade
-Member responsibility: Divyesh
 """
 from datetime import datetime
 from core.kiosk import Kiosk

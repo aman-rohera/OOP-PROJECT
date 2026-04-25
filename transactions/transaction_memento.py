@@ -7,7 +7,6 @@ Pattern: Memento
   - Memento: TransactionMemento
   - Caretaker: CommandInvoker
 
-Member responsibility: Diya
 """
 from dataclasses import dataclass
 from typing import Dict

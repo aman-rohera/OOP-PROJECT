@@ -1,7 +1,6 @@
 """
 gui/styles.py
 Color palette, fonts, and widget style constants.
-Member responsibility: Diya
 """
 
 # ── Color Palette ──────────────────────────────────────────────────────────
