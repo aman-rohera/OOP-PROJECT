@@ -1,41 +1,23 @@
-"""
-transactions/command.py
-Abstract Command + CommandInvoker (history/undo support).
-
-Pattern: Command (Abstract + Invoker)
-"""
+# Pattern: Command (Abstract + Invoker)
 from abc import ABC, abstractmethod
 
-
 class Command(ABC):
-    """
-    Abstract Command — all kiosk operations are encapsulated as commands.
-
-    Design Pattern: Command
-    Benefits: undo/redo, logging, queuing, and decoupled execution.
-    """
 
     @abstractmethod
     def execute(self) -> dict:
-        """Execute the command; return a result dict with at least {success, message}."""
+
         pass
 
     @abstractmethod
     def undo(self) -> dict:
-        """Reverse the command's effect."""
+
         pass
 
     @abstractmethod
     def get_description(self) -> str:
         pass
 
-
 class CommandInvoker:
-    """
-    Invoker — executes commands and keeps a history for undo.
-
-    Design Pattern: Command (Invoker)
-    """
 
     def __init__(self):
         self._history: list = []

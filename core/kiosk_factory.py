@@ -1,9 +1,4 @@
-"""
-core/kiosk_factory.py
-Abstract Factory for creating different kiosk types.
-
-Pattern: Abstract Factory
-"""
+# Pattern: Abstract Factory
 from abc import ABC, abstractmethod
 from core.kiosk import Kiosk
 from inventory.inventory_manager import InventoryManager
@@ -16,26 +11,21 @@ from hardware.retry_handler import RetryHandler
 from hardware.recalibration_handler import RecalibrationHandler
 from hardware.technician_handler import TechnicianAlertHandler
 
-
 def build_failure_chain() -> RetryHandler:
-    """Assemble the Chain of Responsibility: Retry → Recalibrate → Technician."""
+
     retry = RetryHandler(max_retries=3)
     recal = RecalibrationHandler()
     tech = TechnicianAlertHandler()
     retry.set_next(recal).set_next(tech)
     return retry
 
-
 class KioskFactory(ABC):
-    """Abstract Factory — each subclass creates a fully configured Kiosk."""
 
     @abstractmethod
     def create_kiosk(self, products: list, event_bus: EventBus) -> Kiosk:
         pass
 
-
 class GeneralKioskFactory(KioskFactory):
-    """Creates a standard general-purpose kiosk."""
 
     def create_kiosk(self, products: list, event_bus: EventBus) -> Kiosk:
         return Kiosk(
@@ -49,9 +39,7 @@ class GeneralKioskFactory(KioskFactory):
             failure_chain=build_failure_chain()
         )
 
-
 class PharmacyKioskFactory(KioskFactory):
-    """Creates a kiosk configured for pharmacy / hospital environments."""
 
     def create_kiosk(self, products: list, event_bus: EventBus) -> Kiosk:
         return Kiosk(
@@ -65,9 +53,7 @@ class PharmacyKioskFactory(KioskFactory):
             failure_chain=build_failure_chain()
         )
 
-
 class EmergencyReliefKioskFactory(KioskFactory):
-    """Creates a kiosk pre-configured for emergency/disaster zones."""
 
     def create_kiosk(self, products: list, event_bus: EventBus) -> Kiosk:
         return Kiosk(

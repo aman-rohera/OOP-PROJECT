@@ -1,21 +1,5 @@
-"""
-core/central_registry.py
-Global singleton registry — stores system-wide state and configuration.
-
-Pattern: Singleton
-"""
-
-
+# Pattern: Singleton
 class CentralRegistry:
-    """
-    System-wide configuration and status store.
-
-    Design Pattern: Singleton
-    Ensures a single shared source of truth for:
-      - kiosk identity and location
-      - current mode and pricing strategy name
-      - runtime statistics
-    """
 
     _instance = None
 
@@ -58,5 +42,5 @@ class CentralRegistry:
 
     @classmethod
     def reset(cls):
-        """For testing: destroy the singleton instance."""
+
         cls._instance = None

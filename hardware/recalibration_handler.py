@@ -1,15 +1,8 @@
-"""
-hardware/recalibration_handler.py
-Second handler: hardware recalibration.
-
-Pattern: Chain of Responsibility (Concrete Handler)
-"""
+# Pattern: Chain of Responsibility (Concrete Handler)
 import random
 from hardware.failure_handler import FailureHandler
 
-
 class RecalibrationHandler(FailureHandler):
-    """Attempts hardware recalibration after retry fails."""
 
     def get_handler_name(self): return "Recalibration"
 

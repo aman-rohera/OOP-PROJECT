@@ -1,14 +1,7 @@
-"""
-state/maintenance_state.py
-Kiosk under maintenance, no purchases.
-
-Pattern: State (Concrete State)
-"""
+# Pattern: State (Concrete State)
 from state.kiosk_state import KioskState
 
-
 class MaintenanceState(KioskState):
-    """Maintenance mode — technicians can restock; purchases blocked."""
 
     def handle_purchase(self, kiosk, product_id, quantity):
         return {"allowed": False, "message": "❌ Kiosk under maintenance. Purchases unavailable.", "max_quantity": None}

@@ -1,12 +1,3 @@
-"""
-gui/admin_dialogs.py
-Admin authentication and management dialogs.
-
-Responsible for:
-  - Admin login/password dialog
-  - Admin panel for adding/editing products
-  - Real-time sync with user interface
-"""
 import tkinter as tk
 from tkinter import ttk, messagebox, simpledialog
 from gui.styles import *
@@ -17,7 +8,6 @@ from state.active_state import ActiveState
 from state.power_saving_state import PowerSavingState
 from state.maintenance_state import MaintenanceState
 from state.emergency_state import EmergencyLockdownState
-
 
 # Event color tags for admin log widget
 EVENT_TAG_COLORS = {
@@ -37,19 +27,11 @@ EVENT_TAG_COLORS = {
     "✨": SUCCESS,
 }
 
-
 class AdminLoginDialog:
-    """Dialog for admin authentication."""
+
     
     def __init__(self, parent, admin_auth, on_success=None):
-        """
-        Initialize admin login dialog.
-        
-        Args:
-            parent: Parent window
-            admin_auth: AdminAuthenticator instance
-            on_success: Callback when login succeeds
-        """
+
         self.admin_auth = admin_auth
         self.on_success = on_success
         self.result = False
@@ -72,7 +54,7 @@ class AdminLoginDialog:
         self._build_ui()
     
     def _build_ui(self):
-        """Build login dialog UI."""
+
         frame = tk.Frame(self.dialog, bg=SURFACE, padx=PAD, pady=PAD)
         frame.pack(fill=tk.BOTH, expand=True)
         
@@ -104,12 +86,12 @@ class AdminLoginDialog:
         self._bind_hover(cancel_btn, BORDER, TEXT_MUTED)
     
     def _bind_hover(self, btn, normal_color, hover_color):
-        """Add hover effect to button."""
+
         btn.bind("<Enter>", lambda e: btn.config(bg=hover_color))
         btn.bind("<Leave>", lambda e: btn.config(bg=normal_color))
     
     def _login(self):
-        """Attempt admin login."""
+
         password = self.password_entry.get()
         
         if not password:
@@ -128,13 +110,11 @@ class AdminLoginDialog:
             self.password_entry.focus()
     
     def _cancel(self):
-        """Close dialog without logging in."""
+
         self.result = False
         self.dialog.destroy()
 
-
 class EditPriceDialog:
-    """Small dialog for editing a product price."""
 
     def __init__(self, parent, admin_manager, product, on_saved=None):
         self.admin_manager = admin_manager
@@ -193,9 +173,7 @@ class EditPriceDialog:
         else:
             messagebox.showerror("Error", "Unable to update the price.")
 
-
 class AddProductDialog:
-    """Dialog for creating a new product."""
 
     def __init__(self, parent, admin_manager, on_saved=None):
         self.admin_manager = admin_manager
@@ -272,20 +250,11 @@ class AddProductDialog:
         else:
             messagebox.showerror("Error", "Unable to add the product.")
 
-
 class AdminPanel:
-    """Admin control panel for managing products and pricing."""
+
     
     def __init__(self, parent, admin_manager, kiosk_interface, on_close=None):
-        """
-        Initialize admin panel.
-        
-        Args:
-            parent: Parent window
-            admin_manager: AdminManager instance
-            kiosk_interface: KioskInterface for UI updates
-            on_close: Callback when panel closes
-        """
+
         self.admin_manager = admin_manager
         self.ki = kiosk_interface
         self.on_close = on_close
@@ -313,7 +282,7 @@ class AdminPanel:
         bus.subscribe(PricingChangedEvent, lambda e: self.pricing_var.set(e.new_strategy) if e.new_strategy else None)
     
     def _build_ui(self):
-        """Build admin panel UI."""
+
         header = tk.Frame(self.panel, bg=SURFACE, height=50)
         header.pack(fill=tk.X, pady=(0, 4))
         header.pack_propagate(False)
@@ -333,7 +302,6 @@ class AdminPanel:
         self._build_logs_panel(container)
 
         self.append_log("👨‍💼 Admin panel opened", "muted")
-
 
     def _build_inventory_panel(self, parent):
         frame = tk.Frame(parent, bg=SURFACE, padx=PAD, pady=PAD)
@@ -475,7 +443,7 @@ class AdminPanel:
               relief=tk.FLAT, cursor="hand2", command=self.clear_log).pack(fill=tk.X, pady=(PAD_SM, 0))
     
     def _build_edit_products_panel(self, parent):
-        """Build card-style admin product browser with edit actions."""
+
         frame = tk.Frame(parent, bg=SURFACE)
         frame.pack(fill=tk.BOTH, expand=True)
 
@@ -573,7 +541,7 @@ class AdminPanel:
             messagebox.showerror("Error", "Failed to delete product")
     
     def _open_add_product_dialog(self):
-        """Open a dedicated window for adding a new product."""
+
         AddProductDialog(self.panel, self.admin_manager, on_saved=lambda data: self._after_add_product(data))
 
     def _after_add_product(self, product_data):
@@ -581,13 +549,13 @@ class AdminPanel:
         self.append_log(f"✨ Added new product: {product_data['name']} ({product_data['id']})", "✨")
     
     def _on_price_changed(self, product_id, new_price):
-        """Handle real-time price change notification."""
+
         self._refresh_product_cards()
         if product_id != "ALL":
             self.append_log(f"💰 Price updated: {product_id} → Rs.{new_price:.2f}", "💰")
     
     def _on_inventory_changed(self, product_id, new_stock):
-        """Handle real-time inventory change notification."""
+
         self._refresh_product_cards()
         self.append_log(f"📦 Inventory updated: {product_id} stock={new_stock}", "📦")
     
@@ -609,7 +577,7 @@ class AdminPanel:
             pass
 
     def _bind_hover(self, btn, normal_color, hover_color):
-        """Add hover effect to button."""
+
         btn.bind("<Enter>", lambda e: btn.config(bg=hover_color))
         btn.bind("<Leave>", lambda e: btn.config(bg=normal_color))
 
@@ -664,7 +632,7 @@ class AdminPanel:
             self.append_log(f"  {k}: {v}", "muted")
     
     def _on_close(self):
-        """Handle admin panel close."""
+
         if self.on_close:
             self.on_close()
         self.panel.destroy()

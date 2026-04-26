@@ -1,19 +1,3 @@
-"""
-gui/app.py
-Main Tkinter application window for Aura Retail OS.
-
-Layout:
-  ┌─────────────────────────────────────────────────────────┐
-  │  HEADER: logo + kiosk info + live clock                 │
-  ├──────────────────┬──────────────────┬───────────────────┤
-  │  PRODUCTS PANEL  │  CONTROL PANEL   │  EVENT LOG        │
-  │  (scrollable     │  (mode switch,   │  (live coloured   │
-  │   product cards) │   pricing, sim)  │   event stream)   │
-  ├──────────────────┴──────────────────┴───────────────────┤
-  │  STATUS BAR: mode | pricing | revenue | items sold       │
-  └─────────────────────────────────────────────────────────┘
-
-"""
 import tkinter as tk
 from tkinter import ttk, messagebox
 from datetime import datetime
@@ -47,9 +31,7 @@ EVENT_TAG_COLORS = {
     "📧": TEXT_MUTED,
 }
 
-
 class AuraRetailOSApp:
-    """Main application window."""
 
     def __init__(self, kiosk_interface, registry):
         self.ki = kiosk_interface
@@ -479,7 +461,7 @@ class AuraRetailOSApp:
     # ── Admin Operations ───────────────────────────────────────────────────
 
     def _admin_login(self):
-        """Handle admin login button click."""
+
         if self.is_admin:
             # Logout
             self.admin_auth.logout()
@@ -500,7 +482,7 @@ class AuraRetailOSApp:
             self.root.wait_window(dialog.dialog)
     
     def _on_admin_login_success(self):
-        """Handle successful admin login."""
+
         self.is_admin = True
         self.admin_btn.config(bg=SUCCESS)
         self._populate_products()
@@ -511,11 +493,11 @@ class AuraRetailOSApp:
             self.admin_panel.append_log(message, tag)
     
     def _on_admin_panel_close(self):
-        """Handle admin panel close."""
+
         self.admin_panel = None
 
     def _bind_hover(self, btn, normal_color, hover_color):
-        """Add hover effect to button."""
+
         btn.bind("<Enter>", lambda e: btn.config(bg=hover_color))
         btn.bind("<Leave>", lambda e: btn.config(bg=normal_color))
 

@@ -1,24 +1,13 @@
-"""
-gui/kiosk_selection.py
-Kiosk type selection screen - user selects kiosk configuration on startup.
-
-Implements Factory selection pattern at the UI level.
-"""
+# Pattern: Implements Factory
 import tkinter as tk
 from tkinter import ttk
 from gui.styles import *
 
-
 class KioskSelectionScreen:
-    """Welcome screen for selecting kiosk type."""
+
     
     def __init__(self, root):
-        """
-        Initialize kiosk selection screen.
-        
-        Args:
-            root: Root Tk window
-        """
+
         self.root = root
         self.kiosk_type = None
         self.result_window = None
@@ -26,7 +15,7 @@ class KioskSelectionScreen:
         self._build_ui()
     
     def _build_ui(self):
-        """Build selection screen UI."""
+
         self.root.title("AURA Retail OS — Select Kiosk")
         self.root.geometry("720x520")
         self.root.configure(bg=BG)
@@ -63,10 +52,10 @@ class KioskSelectionScreen:
                  bg=SURFACE, fg=TEXT_MUTED).pack(anchor=tk.W, pady=(18, 0))
     
     def _select_kiosk(self, kiosk_type):
-        """Handle kiosk selection."""
+
         self.kiosk_type = kiosk_type
         self.root.quit()
     
     def get_selected_kiosk(self):
-        """Get the selected kiosk type."""
+
         return self.kiosk_type

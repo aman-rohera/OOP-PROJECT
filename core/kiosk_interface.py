@@ -1,9 +1,4 @@
-"""
-core/kiosk_interface.py
-Facade — exposes a simplified API for external systems (the GUI).
-
-Pattern: Facade
-"""
+# Pattern: Facade
 from datetime import datetime
 from core.kiosk import Kiosk
 from transactions.purchase_command import PurchaseItemCommand
@@ -15,15 +10,7 @@ from events.events import (
     InventoryUpdateEvent
 )
 
-
 class KioskInterface:
-    """
-    Facade over the kiosk subsystems.
-
-    Design Pattern: Facade
-    External code (GUI) calls simple methods here; the complexity of
-    commands, state checks, events, and persistence is hidden inside.
-    """
 
     def __init__(self, kiosk: Kiosk, registry, data_manager=None, kiosk_type: str = "food"):
         self.kiosk = kiosk
@@ -34,11 +21,7 @@ class KioskInterface:
     # ── Purchases ─────────────────────────────────────────────────────────
 
     def purchase_item(self, product_id: str, quantity: int = 1) -> dict:
-        """
-        Public API: purchase an item.
-        Internally creates and executes a PurchaseItemCommand.
-        Fires events and persists via DataManager.
-        """
+
         cmd = PurchaseItemCommand(
             kiosk=self.kiosk,
             product_id=product_id,
@@ -73,7 +56,7 @@ class KioskInterface:
         return result
 
     def refund_transaction(self) -> dict:
-        """Undo the last transaction (Command undo + Memento restore)."""
+
         result = self.kiosk.undo_last()
         if result.get("success"):
             self._persist_inventory()
@@ -110,7 +93,7 @@ class KioskInterface:
         return result
 
     def restock_all(self, quantity: int = 50) -> None:
-        """Restock every product to ensure stock."""
+
         for p in self.kiosk.inventory_manager.get_all_products():
             self.restock_inventory(p["id"], quantity)
 
@@ -141,7 +124,7 @@ class KioskInterface:
 
     def trigger_hardware_failure(self, component: str, severity: str = "medium",
                                   log_cb=None) -> dict:
-        """Simulate a hardware failure and run the chain of handlers."""
+
         error_msg = f"Unexpected fault in {component}"
         self.kiosk.event_bus.publish(HardwareFailureEvent(
             component=component, error_message=error_msg, severity=severity

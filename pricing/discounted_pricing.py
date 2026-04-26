@@ -1,20 +1,10 @@
-"""
-pricing/discounted_pricing.py
-Discounted pricing — applies a percentage discount to base price.
-
-Pattern: Strategy (Concrete Strategy)
-"""
+# Pattern: Strategy (Concrete Strategy)
 from pricing.pricing_strategy import PricingStrategy
 
-
 class DiscountedPricing(PricingStrategy):
-    """
-    Discounted prices — e.g. 20% off during promotional events.
-    Discount rate is configurable at construction time.
-    """
 
     def __init__(self, discount_rate: float = 0.20):
-        self.discount_rate = discount_rate  # 0.20 = 20% off
+        self.discount_rate = discount_rate  
 
     def calculate_price(self, base_price: float) -> float:
         return round(base_price * (1 - self.discount_rate), 2)

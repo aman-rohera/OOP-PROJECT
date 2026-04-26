@@ -1,17 +1,7 @@
-"""
-state/emergency_state.py
-Emergency lockdown — essential items only, quantity limited.
-
-Pattern: State (Concrete State)
-"""
+# Pattern: State (Concrete State)
 from state.kiosk_state import KioskState
 
-
 class EmergencyLockdownState(KioskState):
-    """
-    Emergency mode — only essential items purchasable,
-    and only up to max_per_person units per transaction.
-    """
 
     def __init__(self, max_per_person: int = 2):
         self.max_per_person = max_per_person

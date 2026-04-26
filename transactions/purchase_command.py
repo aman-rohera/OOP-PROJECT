@@ -1,22 +1,10 @@
-"""
-transactions/purchase_command.py
-Concrete Command for purchasing a product.
-
-Pattern: Command (Concrete) + Memento (rollback)
-"""
+# Pattern: Command (Concrete) + Memento (rollback)
 import uuid
 from datetime import datetime
 from transactions.command import Command
 from transactions.transaction_memento import TransactionMemento
 
-
 class PurchaseItemCommand(Command):
-    """
-    Encapsulates a purchase transaction.
-    Saves a Memento before execution to support rollback.
-
-    Design Pattern: Command + Memento
-    """
 
     def __init__(self, kiosk, product_id: str, quantity: int, pricing_strategy):
         self.kiosk = kiosk
@@ -76,7 +64,7 @@ class PurchaseItemCommand(Command):
         return self._result
 
     def undo(self) -> dict:
-        """Rollback using saved Memento."""
+
         if not self._memento or not (self._result and self._result.get("success")):
             return {"success": False, "message": "Nothing to undo."}
         self.kiosk.inventory_manager.restore_snapshot(self._memento.get_snapshot())

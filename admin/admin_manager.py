@@ -1,26 +1,13 @@
-"""
-admin/admin_manager.py
-Admin management system for adding/editing products and pricing.
-
-Pattern: Observer (notifies UI of changes)
-Responsibility: Manage admin operations and broadcast changes
-"""
+# Pattern: Observer (notifies UI of changes)
 from typing import List, Dict, Optional, Callable
 from events.events import InventoryUpdateEvent, PricingChangedEvent, TransactionEvent, RestockEvent
 from events.event_system import EventBus
 
-
 class AdminManager:
-    """Manager for admin operations with real-time synchronization."""
+
     
     def __init__(self, event_bus: EventBus, inventory_manager, data_manager=None, kiosk_type: str = "food"):
-        """
-        Initialize admin manager.
-        
-        Args:
-            event_bus: EventBus for publishing/subscribing changes
-            inventory_manager: Reference to inventory manager
-        """
+
         self.event_bus = event_bus
         self.inventory_manager = inventory_manager
         self.data_manager = data_manager
@@ -73,15 +60,15 @@ class AdminManager:
         self.data_manager.save_inventory_for_kiosk(self.kiosk_type, self.inventory_manager.get_all_products())
     
     def subscribe_to_price_changes(self, callback: Callable):
-        """Subscribe to price change notifications."""
+
         self._prices_changed_subscribers.append(callback)
     
     def subscribe_to_inventory_changes(self, callback: Callable):
-        """Subscribe to inventory change notifications."""
+
         self._inventory_changed_subscribers.append(callback)
     
     def notify_price_changes(self, product_id: str, new_price: float):
-        """Notify all subscribers of price changes."""
+
         for callback in self._prices_changed_subscribers:
             try:
                 callback(product_id, new_price)
@@ -89,7 +76,7 @@ class AdminManager:
                 print(f"Error notifying price change subscriber: {e}")
     
     def notify_inventory_changes(self, product_id: str, new_stock: int):
-        """Notify all subscribers of inventory changes."""
+
         for callback in self._inventory_changed_subscribers:
             try:
                 callback(product_id, new_stock)
@@ -97,15 +84,7 @@ class AdminManager:
                 print(f"Error notifying inventory change subscriber: {e}")
     
     def add_new_product(self, product_data: Dict) -> bool:
-        """
-        Add a new product to inventory.
-        
-        Args:
-            product_data: Dict with keys: id, name, description, icon, base_price, quantity, essential
-        
-        Returns:
-            True if successfully added, False otherwise
-        """
+
         try:
             # Validate required fields
             required_fields = ["id", "name", "description", "icon", "base_price", "quantity"]
@@ -145,16 +124,7 @@ class AdminManager:
             return False
     
     def update_product_price(self, product_id: str, new_price: float) -> bool:
-        """
-        Update a product's base price.
-        
-        Args:
-            product_id: ID of the product to update
-            new_price: New base price
-        
-        Returns:
-            True if successfully updated, False otherwise
-        """
+
         try:
             product = self.inventory_manager.get_product(product_id)
             if not product:
@@ -183,16 +153,7 @@ class AdminManager:
             return False
     
     def update_product_stock(self, product_id: str, new_stock: int) -> bool:
-        """
-        Update product stock level.
-        
-        Args:
-            product_id: ID of the product
-            new_stock: New stock level
-        
-        Returns:
-            True if successfully updated, False otherwise
-        """
+
         try:
             product = self.inventory_manager.get_product(product_id)
             if not product:
@@ -231,15 +192,7 @@ class AdminManager:
             return False
     
     def delete_product(self, product_id: str) -> bool:
-        """
-        Remove a product from inventory.
-        
-        Args:
-            product_id: ID of the product to remove
-        
-        Returns:
-            True if successfully deleted, False otherwise
-        """
+
         try:
             result = self.inventory_manager.remove_product(product_id)
             
@@ -264,9 +217,9 @@ class AdminManager:
             return False
     
     def get_all_products(self) -> List[Dict]:
-        """Get all products currently in inventory."""
+
         return self.inventory_manager.get_all_products()
     
     def get_product(self, product_id: str) -> Optional[Dict]:
-        """Get a specific product by ID."""
+
         return self.inventory_manager.get_product(product_id)

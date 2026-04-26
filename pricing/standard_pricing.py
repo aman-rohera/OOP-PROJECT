@@ -1,14 +1,7 @@
-"""
-pricing/standard_pricing.py
-Standard pricing — charges the base price (1x multiplier).
-
-Pattern: Strategy (Concrete Strategy)
-"""
+# Pattern: Strategy (Concrete Strategy)
 from pricing.pricing_strategy import PricingStrategy
 
-
 class StandardPricing(PricingStrategy):
-    """Standard prices — no modification to base_price."""
 
     def calculate_price(self, base_price: float) -> float:
         return round(base_price, 2)

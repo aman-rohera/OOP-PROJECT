@@ -1,15 +1,8 @@
-"""
-persistence/data_manager.py
-Handles JSON-based persistence for inventory, transactions, and config.
-
-"""
 import json
 import os
 from typing import Any
 
-
 class DataManager:
-    """Reads and writes JSON data files for system state persistence."""
 
     BASE_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data")
 
@@ -46,7 +39,7 @@ class DataManager:
 
     @classmethod
     def _default_products_for_kiosk(cls, kiosk_type: str, all_products: list) -> list:
-        """Return kiosk-specific default product subsets."""
+
         if kiosk_type == "pharmacy":
             allowed = {"medicine", "medical", "safety", "health"}
             subset = [p for p in all_products if p.get("category") in allowed]
@@ -65,10 +58,7 @@ class DataManager:
 
     @classmethod
     def load_inventory_for_kiosk(cls, kiosk_type: str) -> list:
-        """
-        Load inventory specific to one kiosk type.
-        If no kiosk file exists yet, initialize it from filtered defaults.
-        """
+
         filename = cls._inventory_filename_for_kiosk(kiosk_type)
         data = cls.load(filename)
         products = data.get("products", []) if isinstance(data, dict) else []

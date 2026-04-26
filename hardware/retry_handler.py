@@ -1,15 +1,8 @@
-"""
-hardware/retry_handler.py
-First handler: auto-retry.
-
-Pattern: Chain of Responsibility (Concrete Handler)
-"""
+# Pattern: Chain of Responsibility (Concrete Handler)
 import random
 from hardware.failure_handler import FailureHandler
 
-
 class RetryHandler(FailureHandler):
-    """Attempts automatic restarts before escalating."""
 
     def __init__(self, max_retries: int = 3):
         super().__init__()

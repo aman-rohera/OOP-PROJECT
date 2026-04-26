@@ -1,8 +1,3 @@
-"""
-gui/styles.py
-Color palette, fonts, and widget style constants.
-"""
-
 # ── Color Palette ──────────────────────────────────────────────────────────
 BG          = "#0f1117"   # root background
 SURFACE     = "#1a1d2e"   # panel / frame bg

@@ -1,14 +1,7 @@
-"""
-state/active_state.py
-Normal full-operation mode.
-
-Pattern: State (Concrete State)
-"""
+# Pattern: State (Concrete State)
 from state.kiosk_state import KioskState
 
-
 class ActiveState(KioskState):
-    """Full functionality — normal kiosk operation."""
 
     def handle_purchase(self, kiosk, product_id, quantity):
         return {"allowed": True, "message": "Purchase allowed in Active mode.", "max_quantity": None}

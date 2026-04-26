@@ -1,28 +1,15 @@
-"""
-events/subscribers.py
-Concrete Observer classes for the Aura Retail OS event system.
-
-Pattern: Observer (Concrete Observers)
-  - MaintenanceService   → listens for HardwareFailureEvent
-  - SupplyChainSystem    → listens for LowStockEvent
-  - CityMonitoringCenter → listens for all critical events
-"""
+# Pattern: Observer (Concrete Observers)
 from events.events import (
     LowStockEvent, HardwareFailureEvent, EmergencyModeActivatedEvent,
     ModeChangedEvent, TransactionEvent
 )
 
-
 class MaintenanceService:
-    """
-    Observer: responds to hardware failure events.
-    Pattern: Observer (Concrete Observer)
-    """
 
     def __init__(self, event_bus, gui_callback=None):
         self.failure_log = []
         self.gui_callback = gui_callback
-        # Register as observer
+        
         event_bus.subscribe(HardwareFailureEvent, self.on_hardware_failure)
 
     def on_hardware_failure(self, event: HardwareFailureEvent):
@@ -36,17 +23,12 @@ class MaintenanceService:
         if self.gui_callback:
             self.gui_callback(f"🔧 Maintenance alerted: {event.component} failure ({event.severity})")
 
-
 class SupplyChainSystem:
-    """
-    Observer: responds to low stock events and triggers reorder.
-    Pattern: Observer (Concrete Observer)
-    """
 
     def __init__(self, event_bus, gui_callback=None):
         self.restock_requests = []
         self.gui_callback = gui_callback
-        # Register as observer
+        
         event_bus.subscribe(LowStockEvent, self.on_low_stock)
 
     def on_low_stock(self, event: LowStockEvent):
@@ -60,12 +42,7 @@ class SupplyChainSystem:
         if self.gui_callback:
             self.gui_callback(f"📦 Supply chain: Reorder placed for {event.product_name}")
 
-
 class CityMonitoringCenter:
-    """
-    Observer: city-wide monitoring — tracks emergencies and critical events.
-    Pattern: Observer (Concrete Observer)
-    """
 
     def __init__(self, event_bus, gui_callback=None):
         self.alerts = []

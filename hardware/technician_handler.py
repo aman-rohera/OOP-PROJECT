@@ -1,15 +1,8 @@
-"""
-hardware/technician_handler.py
-Final handler: send alert to technician.
-
-Pattern: Chain of Responsibility (Concrete Handler)
-"""
+# Pattern: Chain of Responsibility (Concrete Handler)
 from datetime import datetime
 from hardware.failure_handler import FailureHandler
 
-
 class TechnicianAlertHandler(FailureHandler):
-    """Last resort — logs a technician alert. Always 'resolves' by alerting."""
 
     def __init__(self):
         super().__init__()

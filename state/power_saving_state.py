@@ -1,14 +1,7 @@
-"""
-state/power_saving_state.py
-Reduced-power operation mode.
-
-Pattern: State (Concrete State)
-"""
+# Pattern: State (Concrete State)
 from state.kiosk_state import KioskState
 
-
 class PowerSavingState(KioskState):
-    """Reduced features — purchases allowed with a quantity cap."""
 
     def handle_purchase(self, kiosk, product_id, quantity):
         return {

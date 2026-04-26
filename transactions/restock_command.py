@@ -1,11 +1,5 @@
-"""
-transactions/restock_command.py
-Concrete Command for restocking a product.
-
-Pattern: Command (Concrete)
-"""
+# Pattern: Command (Concrete)
 from transactions.command import Command
-
 
 class RestockCommand(Command):
     def __init__(self, kiosk, product_id: str, quantity: int):
